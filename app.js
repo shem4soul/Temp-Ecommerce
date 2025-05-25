@@ -6,7 +6,7 @@ const app = express()
 
 //rest of the packages
 const morgan = require('morgan')
-
+const cookieParser = require('cookie-parser')
 
 //database
 const connectDB = require('./db/connect')
@@ -21,6 +21,7 @@ const errorHandlerMiddleware = require('./middleware/error-handler')
 
 app.use(morgan('tiny'))
 app.use(express.json())
+app.use(cookieParser)
 
 app.get('/', (req, res) =>{
     res.send('e-commerce api')
