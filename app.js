@@ -21,7 +21,7 @@ const errorHandlerMiddleware = require('./middleware/error-handler')
 
 app.use(morgan('tiny'))
 app.use(express.json())
-app.use(cookieParser)
+app.use(cookieParser())
 
 app.get('/', (req, res) =>{
     
