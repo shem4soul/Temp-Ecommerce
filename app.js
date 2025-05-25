@@ -24,10 +24,16 @@ app.use(express.json())
 app.use(cookieParser)
 
 app.get('/', (req, res) =>{
-    console.log(req.cookies);
     
     res.send('e-commerce api')
 })
+
+app.get("/api/v1", (req, res) => {
+  console.log(req.cookies);
+  res.send('e-commerce api')
+  
+});
+
 
 app.use('/api/v1/auth', authRouter)
 
