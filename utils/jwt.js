@@ -18,7 +18,7 @@ const attachCookiesToResponse = ({res, user}) => {
     httpOnly: true,
     expires: new Date(Date.now() + oneDay),
   });
-  res.status(StatusCodes.CREATED).json({user: tokenUser})
+  res.status(201).json({user})
 }
 
 
