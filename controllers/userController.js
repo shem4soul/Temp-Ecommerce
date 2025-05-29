@@ -15,7 +15,7 @@ const updateUser = (req, res) => {
 }       
 
 const updateUserPassword = (req, res) => {
-  res.send('update user password');
+  res.send(req.body)
 }   
 
 module.exports = {
