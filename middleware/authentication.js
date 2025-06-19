@@ -21,7 +21,13 @@ const authenticateUser = async (req, res, next) => {
     
 }
 
+const authorizePermissions = (req, res, next) => {
+ console.log('admin route');
+ next();
+}
+ 
 
 module.exports = {
-    authenticateUser
+    authenticateUser,
+    authorizePermissions,
 }
