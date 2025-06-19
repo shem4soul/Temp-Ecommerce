@@ -4,6 +4,8 @@ const CustomError = require('../errors');
 
 
 const getAllUsers = async (req, res) => {
+  console.log(req.user);
+  
 const users = await User.find({role:'user'}).select('-password'); // Exclude password field
   if (!users) {
     throw new CustomError.NotFoundError('No users found');
