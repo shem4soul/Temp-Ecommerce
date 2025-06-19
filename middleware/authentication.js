@@ -6,10 +6,12 @@ const authenticateUser = async (req, res, next) => {
     const token = req.signedCookies.token
     
     if(!token) {
-      console.log('error: No token provided');
+      console.log('error: No token present');
              
     }
+    else{
     console.log('token present');
+    }
     next();
     
     
