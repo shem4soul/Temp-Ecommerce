@@ -22,7 +22,7 @@ const getSingleUser = async (req, res) => {
 }
 
 const showCurrentUser = (req, res) => {
-  res.send('show current user');
+  res.status(StatusCodes.OK).json({ user: req.user }); // Assuming req.user is set by authentication middleware
 }   
 
 const updateUser = (req, res) => {
