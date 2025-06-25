@@ -35,6 +35,10 @@ const {email, name} = req.body
    {email, name},
    {new: true, runValidators: true} 
   )
+const tokenUser = createTokenUser(user);
+  attachCookiesToResponse({res, user: tokenUser});
+  res.status(StatusCodes.OK).json({ user: tokenUser });
+
 };  
 const updateUserPassword = async (req, res) => {
  const {oldPassword, newPassword} = req.body;
