@@ -10,6 +10,9 @@ const users = await User.find({role:'user'}).select('-password');
     res.status(StatusCodes.OK).json({ users });
 }
 
+// const users = await User.find().select('-password');
+// res.status(StatusCodes.OK).json({ users, count: users.length }); }
+
 const getSingleUser = async (req, res) => {
  const user = await User.findOne({_id: req.params.id}).select('-password'); // Exclude password field
  if (!user) {
