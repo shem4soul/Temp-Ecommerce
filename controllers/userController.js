@@ -25,14 +25,17 @@ const showCurrentUser = (req, res) => {
   res.status(StatusCodes.OK).json({ user: req.user }); // Assuming req.user is set by authentication middleware
 }   
 
-const updateUser = (req, res) => {
+const updateUser =  async (req, res) => {
 const {email, name} = req.body
  if (!email || !name ) {
   throw new CustomError.BadRequestError('please provide all values')
  }
- const user = await User.findOneAndUpdate
-}       
-
+ const user = await User.findOneAndUpdate(
+   {_id: req.user.userId},
+   {email, name},
+   {new: true, runValidators: true} 
+  )
+};  
 const updateUserPassword = async (req, res) => {
  const {oldPassword, newPassword} = req.body;
 if (!oldPassword || !newPassword) {
