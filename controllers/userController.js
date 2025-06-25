@@ -7,10 +7,7 @@ const getAllUsers = async (req, res) => {
   console.log(req.user);
   
 const users = await User.find({role:'user'}).select('-password'); 
-  if (!users) {
-    throw new CustomError.NotFoundError('No users found');
-  }
-  res.status(StatusCodes.OK).json({ users, count: users.length });
+    res.status(StatusCodes.OK).json({ users });
 }
 
 const getSingleUser = async (req, res) => {
