@@ -30,6 +30,36 @@
         enum: {
             values: ['ikea', 'liddy', 'marcos'],
             message: '{VALUE} is not supported'
-        }
+        },
     },
- })
+        colors: {
+            type: [String],
+            required: true
+        },
+        featured: {
+            type: Boolean,
+            default: false
+        },
+        freeshipping: {
+            type: Boolean,
+            default: false
+        },
+        inventory: {
+            type: Number,
+            required: true,
+            default: 15
+        },
+        averageRating: {
+            type: Number,
+            default: 0
+        },
+        user: {
+            type: mongoose.Types.ObjectId,
+            ref: 'User',
+            required: true,
+        },
+    },
+    { timestamps: true}
+)
+
+module.exports = mongoose.model('Product', ProductSchema);
