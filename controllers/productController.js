@@ -26,7 +26,10 @@ const getAllProducts = async (req, res) => {
 
 const updateProduct = async (req, res) => {
     const {id: productId } = req.params
-    const product = await Product.findByIdAndUpdate({_id: productId})
+    const product = await Product.findByIdAndUpdate({_id: productId}, req.body,{
+      new: true,
+      runValidators: true,
+    })
 
     if (!product) {
         throw new CustomError.NotFoundError(`No product with id: ${productId}`)
