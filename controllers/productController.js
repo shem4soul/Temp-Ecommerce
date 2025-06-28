@@ -14,7 +14,6 @@ const getAllProducts = async (req, res) => {
     res.status(StatusCodes.OK).json({products, count: products.length})
  
 }
-
     const getSingleProduct = async (req, res) => {
         const {id: productId} = req.params
         const product = await Product.findOne({_id: productId})
@@ -47,34 +46,34 @@ const deleteProduct = async (req, res) => {
       throw new CustomError.NotFoundError(`No product with id: ${productId}`);
     }
   await product.remove()
-  res.status(StatusCodes.Ok).json({msg: 'Sucess! Product removed'})
-}   
+  res.status(StatusCodes.OK).json({msg: 'Sucess! Product removed'})
+}
+
+
 const uploadImage = async (req, res) => {
-  if (!req.files) {
-    throw new CustomError.BadRequestError('No File uUploaded')
+  if (!req.files || !req.files.image) {
+    throw new CustomError.BadRequestError('No file uploaded');
   }
-const productImage = req.files.uploadImage
 
-if (!productImage.mimetype.startsWith('image')) {
-  throw new CustomError.BadRequestError("Please Upload Image"); 
-  
-}
-  const maxSize = 1024 * 1024
+  const productImage = req.files.image;
+
+  if (!productImage.mimetype.startsWith('image')) {
+    throw new CustomError.BadRequestError('Please upload an image file');
+  }
+
+  const maxSize = 1 * 1024 * 1024; // 1MB
   if (productImage.size > maxSize) {
-    throw new CustomError.BadRequestError(
-      'Please u[pload image smaller than 1MB'
-    )
-    
+    throw new CustomError.BadRequestError('Please upload an image smaller than 1MB');
   }
-  const imagePath = path.join(
-    __dirname,
-    '../public/uploads/' + `${productImage.name}`
-  )
 
-await productImage.mv(imagePath)
-res.status(StatusCodes.Ok).json({image: `/uploads/${productImage.name}`})
+  const imageName = `${Date.now()}-${productImage.name}`;
+  const imagePath = path.join(__dirname, '../public/uploads/', imageName);
 
-}
+  await productImage.mv(imagePath);
+
+  res.status(StatusCodes.OK).json({ image: `/uploads/${imageName}` });
+};
+
 
 module.exports = {
     createProduct,
