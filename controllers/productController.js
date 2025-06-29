@@ -37,17 +37,34 @@ const updateProduct = async (req, res) => {
      res.status(StatusCodes.OK).json({ product });
 }
 
-
 const deleteProduct = async (req, res) => {
-    const { id: productId } = req.params;
-    const product = await Product.findOne({ _id: productId });
+  const { id: productId } = req.params;
 
-    if (!product) {
-      throw new CustomError.NotFoundError(`No product with id: ${productId}`);
-    }
-    await Product.deleteOne({ _id: productId })
-  res.status(StatusCodes.OK).json({msg: 'Sucess! Product removed'})
-}
+  // ✅ Ensure you get a full Mongoose document
+  const product = await Product.findById(productId);
+
+  if (!product) {
+    throw new CustomError.NotFoundError(`No product with id: ${productId}`);
+  }
+
+  // ✅ This will trigger pre('remove') to delete related reviews
+  await product.deleteOne(); // Use deleteOne instead of remove()
+
+  res.status(StatusCodes.OK).json({ msg: 'Success! Product removed' });
+};
+
+
+
+// const deleteProduct = async (req, res) => {
+//   const { id: productId } = req.params;
+//   const product = await Product.findById(productId); 
+
+//   if (!product) {
+//     throw new CustomError.NotFoundError(`No product with id: ${productId}`);
+//   }
+//   await product.remove();
+//   res.status(StatusCodes.OK).json({ msg: "Sucess! Product removed" });
+// }
 
 
 const uploadImage = async (req, res) => {
