@@ -10,7 +10,7 @@ const {
     deleteReview
 } = require('../controllers/reviewController')
 
-router.route('./').post(authenticateUser,createReview).get(getAllReviews)
+router.route('/').post(authenticateUser,createReview).get(getAllReviews)
 
 router
 .route('/:id')
