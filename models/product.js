@@ -34,33 +34,37 @@ const ProductSchema = new mongoose.Schema({
             message: '{VALUE} is not supported'
         },
     },
-        colors: {
+    colors: {
             type: [String],
             default: ['#222'],
             required: true
-        },
-        featured: {
+    },
+    featured: {
             type: Boolean,
             default: false
-        },
-        freeshipping: {
+    },
+    freeshipping: {
             type: Boolean,
             default: false
-        },
-        inventory: {
-            type: Number,
-            required: true,
-            default: 15
-        },
-        averageRating: {
-            type: Number,
-            default: 0
-        },
-        user: {
-            type: mongoose.Types.ObjectId,
-            ref: 'User',
-            required: true,
-        },
+    },
+    inventory: {
+    type: Number,
+    required: true,
+    default: 15
+    },
+    averageRating: {
+    type: Number,
+    default: 0
+    },
+    numOfReviews: {
+    type: Number,
+    default: 0,
+    },
+    user: {
+    type: mongoose.Types.ObjectId,
+    ref: 'User',
+    required: true,
+    },
     },
     { timestamps: true, toJSON: {virtuals: true}, toObject: {virtuals: true}}
 )
