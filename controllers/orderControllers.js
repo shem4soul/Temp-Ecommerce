@@ -46,7 +46,7 @@ const getAllOrders = async (req, res) => {
   }
 }   
 
-const getSingleUserOrders = async (req, res) => {
+const getSingleOrder = async (req, res) => {
   const userId = req.user._id;
 
   try {
@@ -62,9 +62,9 @@ const getSingleUserOrders = async (req, res) => {
   }
 }   
 
-const getCurrentUserOrder = async (req, res) => {
+const getCurrentUserOrders = async (req, res) => {
   res.send('getCurrentUserOrder endpoint is not implemented yet.'); // Placeholder for future implementation
-  
+
 }
             
 
@@ -94,7 +94,8 @@ module.exports = {
   createOrder,
   getOrder,
   getAllOrders,
-  getSingleUserOrders,
-  getCurrentUserOrder,
+  getSingleOrder,
+  getCurrentUserOrders,
   updateOrder
 };
+
