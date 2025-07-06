@@ -5,6 +5,11 @@ const CustomError = require("../errors");
 const { checkPermissions} = require("../utils");
 
 
+const fakeStripeAPI = async ({amount, currency}) => {
+  const client_secret = 'someRandomValue'
+  return {client_secret, amount}
+}
+
 const createOrder = async (req, res) => {
   const { items: cartItems, tax, shippingFee } = req.body;
 
@@ -39,6 +44,29 @@ const createOrder = async (req, res) => {
     // calculate subtotal
     subtotal += item.amount * price;
   }
+// calculate total
+const total = tax + shippingFee + subtotal
+
+// get client secret
+const paymentIntent = await fakeStripeAPI({
+  amount: total,currency: 'usd'
+})
+
+
+const order = await Order.create({
+  orderItems,
+  total,
+  subtotal,
+  tax,
+  shippingFee,
+  clientSecret: paymentIntent.client_secret,
+  user: req.user.userId,
+})
+
+res
+  .status(StatusCodes.CREATED)
+  .json({order, clientSecret: order.client_secret})
+
 console.log(orderItems);
 console.log(subtotal);
   res.send('create order');
