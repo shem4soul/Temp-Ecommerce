@@ -4,6 +4,7 @@ const { StatusCodes } = require("http-status-codes");
 const CustomError = require("../errors");
 const { checkPermissions} = require("../utils");
 
+
 const createOrder = async (req, res) => {
   const { items: cartItems, tax, shippingFee } = req.body;
 
@@ -30,6 +31,7 @@ const createOrder = async (req, res) => {
     amount: item.amount,
     name,
     price,
+    image,
     product:_id,
    }
    //add item to order
