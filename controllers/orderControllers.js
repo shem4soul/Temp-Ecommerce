@@ -69,7 +69,7 @@ res
 
 console.log(orderItems);
 console.log(subtotal);
-  res.send('create order');
+
 };
 
 
