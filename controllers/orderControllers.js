@@ -77,45 +77,39 @@ const getAllOrders = async (req, res) => {
  res.status(StatusCodes.OK).json({orders, count: orders.length})
 }
 
-const getSingleOrder = async (req, res) => {
-   const { id: orderId } = req.params
-   const order = await Order.findOne({_id: orderId})
-      if (!order) {
-     throw new CustomError.NotFoundError(`No order with id : $ {orderId}`)
-   }
-   checkPermissions(req.user, order.user)
-   res.status(StatusCodes.Ok).json({order})
-}
 
-const getCurrentUserOrders = async (req, res) => {
-  res.send("getCurrentUserOrder endpoint is not implemented yet."); // Placeholder for future implementation
+const getSingleOrder = async (req, res) => {
+  const { id: orderId } = req.params;
+  const order = await Order.findOne({ _id: orderId });
+  if (!order) {
+    throw new CustomError.NotFoundError(`No order with id : $ {orderId}`);
+  }
+  checkPermissions(req.user, order.user);
+  res.status(StatusCodes.OK).json({ order });
 };
 
+
+const getCurrentUserOrders = async (req, res) => {
+     const orders = await Order.find({user: req.user.userId})
+     res.status(StatusCodes.OK).json({orders, count: orders.length})
+}
+
 const updateOrder = async (req, res) => {
-  const { orderId } = req.params;
-  const { status } = req.body;
+   const { id: orderId } = req.params
+   const { paymentIntentId } = req.body
 
-  if (!status) {
-    return res
-      .status(400)
-      .json({ message: "Please provide a status to update." });
-  }
+   const order = await Order.findOne({_id: orderId })
+   if (!order) {
+      throw new CustomError.NotFoundError(`No order with id: ${orderId}`)
 
-  try {
-    const order = await Order.findByIdAndUpdate(
-      orderId,
-      { status },
-      { new: true }
-    );
+   }
+   checkPermissions(req.user, order.user)
+  
+   order.paymentIntentId = paymentIntentId
+   order.status = 'paid'
+   await order.save()
 
-    if (!order) {
-      return res.status(404).json({ message: "Order not found." });
-    }
-
-    res.status(200).json({ order });
-  } catch (error) {
-    res.status(500).json({ message: "Server error", error: error.message });
-  }
+   res.status(StatusCodes.OK).json({order})
 };
 
 module.exports = {
