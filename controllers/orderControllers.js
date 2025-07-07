@@ -67,58 +67,25 @@ res
   .status(StatusCodes.CREATED)
   .json({order, clientSecret: order.client_secret})
 
-console.log(orderItems);
-console.log(subtotal);
 
 };
 
 
-const getOrder = async (req, res) => {
-  const { orderId } = req.params;
-
-  try {
-    const order = await Order.findById(orderId).populate("user", "name email");
-
-    if (!order) {
-      return res.status(404).json({ message: "Order not found." });
-    }
-
-    res.status(200).json({ order });
-  } catch (error) {
-    res.status(500).json({ message: "Server error", error: error.message });
-  }
-};
 
 const getAllOrders = async (req, res) => {
-  try {
-    const orders = await Order.find().populate("user", "name email");
+ const orders = await Order.find({})
+ res.status(StatusCodes.OK).json({orders, count: orders.length})
+}
 
-    res.status(200).json({ orders });
-  } catch (error) {
-    res.status(500).json({ message: "Server error", error: error.message });
-  }
-};
+// const getSingleOrder = async (req, res) => {
+//    const { id: orderId } = req.params
+//    const order = await Order.findOne({_id: orderId})
+   
+//    if (!order) {
+//      throw
+//    }
 
-const getSingleOrder = async (req, res) => {
-  const userId = req.user._id;
-
-  try {
-    const orders = await Order.find({ user: userId }).populate(
-      "user",
-      "name email"
-    );
-
-    if (orders.length === 0) {
-      return res
-        .status(404)
-        .json({ message: "No orders found for this user." });
-    }
-
-    res.status(200).json({ orders });
-  } catch (error) {
-    res.status(500).json({ message: "Server error", error: error.message });
-  }
-};
+// }
 
 const getCurrentUserOrders = async (req, res) => {
   res.send("getCurrentUserOrder endpoint is not implemented yet."); // Placeholder for future implementation
@@ -153,9 +120,7 @@ const updateOrder = async (req, res) => {
 
 module.exports = {
   createOrder,
-  getOrder,
   getAllOrders,
-  getSingleOrder,
   getCurrentUserOrders,
   updateOrder,
 };
