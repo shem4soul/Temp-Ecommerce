@@ -77,15 +77,15 @@ const getAllOrders = async (req, res) => {
  res.status(StatusCodes.OK).json({orders, count: orders.length})
 }
 
-// const getSingleOrder = async (req, res) => {
-//    const { id: orderId } = req.params
-//    const order = await Order.findOne({_id: orderId})
-   
-//    if (!order) {
-//      throw
-//    }
-
-// }
+const getSingleOrder = async (req, res) => {
+   const { id: orderId } = req.params
+   const order = await Order.findOne({_id: orderId})
+      if (!order) {
+     throw new CustomError.NotFoundError(`No order with id : $ {orderId}`)
+   }
+   checkPermissions(req.user, order.user)
+   res.status(StatusCodes.Ok).json({order})
+}
 
 const getCurrentUserOrders = async (req, res) => {
   res.send("getCurrentUserOrder endpoint is not implemented yet."); // Placeholder for future implementation
@@ -121,6 +121,7 @@ const updateOrder = async (req, res) => {
 module.exports = {
   createOrder,
   getAllOrders,
+  getSingleOrder,
   getCurrentUserOrders,
   updateOrder,
 };
