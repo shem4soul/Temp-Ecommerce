@@ -24,8 +24,8 @@ router
 
 router
 .route('/:id')       
-// .get(authenticateUser, getSingleOrder)
+.get(authenticateUser, getSingleOrder)
 .patch(authenticateUser,  updateOrder);
 
 
-module.exports = router;
+  (module.exports = router);
